@@ -1,0 +1,17 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Hình ảnh nền -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#ffffff" />
+        </shape>
+    </item>
+
+    <!-- Ảnh -->
+    <item android:width="306dp"
+        android:height="51dp"
+        android:gravity="center_vertical">
+        <bitmap
+            android:src="@drawable/logout"
+            android:gravity="fill" />
+    </item>
+</layer-list>

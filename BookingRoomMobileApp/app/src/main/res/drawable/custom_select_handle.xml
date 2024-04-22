@@ -1,0 +1,7 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Hình ảnh làm background -->
+    <item android:height="24dp"
+        android:width="24dp">
+        <bitmap android:src="@drawable/marker"/>
+    </item>
+</layer-list>

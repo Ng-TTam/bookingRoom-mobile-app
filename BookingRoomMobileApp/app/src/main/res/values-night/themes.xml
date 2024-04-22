@@ -1,0 +1,41 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.BookingRoom" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">#4C4DDC</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@android:color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="backgroundColor">@color/white</item>
+        <item name="textColor">@color/black</item>
+        <!-- Customize your theme here. -->
+        <item name="android:textCursorDrawable">@drawable/custom_cursor</item>
+        <item name="android:textSelectHandle">@drawable/custom_select_handle</item>
+        <item name="android:textColorHighlight">#F5F5FF</item>
+        <item name="android:textSelectHandleLeft">@drawable/custom_select_handle</item>
+        <item name="android:textSelectHandleRight">@drawable/custom_select_handle</item>
+    </style>
+
+    <style name="CalenderViewCustom" parent="Theme.AppCompat">
+        <item name="colorAccent">#4C4DDC</item>
+        <item name="colorPrimary">@android:color/darker_gray</item>
+        <item name="android:textColorPrimaryInverse">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+    <style name="DatePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+
+        <item name="colorAccent">#4C4DDC</item>
+        <item name="colorPrimary">#804C4DDC</item>
+        <item name="android:textColorPrimaryInverse">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+</resources>

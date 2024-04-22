@@ -1,0 +1,19 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Hình ảnh nền -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#ffffff" />
+            <stroke
+                android:color="#EDEDED" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <!-- Hình ảnh làm background -->
+    <item android:height="24dp"
+        android:width="24dp">
+        <bitmap
+            android:src="@drawable/setting"
+            android:gravity="fill" />
+    </item>
+</layer-list>
