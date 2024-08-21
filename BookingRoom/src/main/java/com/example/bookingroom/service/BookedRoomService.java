@@ -1,9 +1,7 @@
-package com.example.bookingroom.service;
+package com.example.bookingRoom.service;
 
-import com.example.bookingroom.dto.BookedRoomDTO;
-import com.example.bookingroom.dto.BookingDTO;
-import com.example.bookingroom.dto.HotelDTO;
-import com.example.bookingroom.dto.UserDTO;
+import com.example.bookingRoom.dto.BookedRoomDTO;
+import com.example.bookingRoom.dto.BookingDTO;
 
 import java.util.List;
 

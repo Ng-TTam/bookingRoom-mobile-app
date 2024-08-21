@@ -1,12 +1,15 @@
-package com.example.bookingroom.service;
+package com.example.bookingRoom.service;
 
-import com.example.bookingroom.dto.UserDTO;
+import com.example.bookingRoom.dto.request.UserChangeInfoRequest;
+import com.example.bookingRoom.dto.request.UserChangePassRequest;
+import com.example.bookingRoom.dto.request.UserCreationRequest;
+import com.example.bookingRoom.dto.request.UserRequest;
+import com.example.bookingRoom.dto.response.UserResponse;
 
 public interface UserService {
-    void registerUser(UserDTO userDTO);
-    UserDTO getUserByNameLogin(String nameLogin);
-    public void changeRewardPointUser(UserDTO userDTOCurrent, UserDTO userDTONew);
-    boolean equalPassword(UserDTO userDTO, String password);
-    void changePassUser(UserDTO userDTO, String newPassword);
-    void changeInfoUser(UserDTO userDTOCurrent, UserDTO userDTONew);
+    UserResponse registerUser(UserCreationRequest userCreationRequest);
+    void changeRewardPointUser(UserRequest userDTOCurrent, UserRequest userDTONew);
+    UserResponse getInfo();
+    UserResponse changePassUser(UserChangePassRequest userChangePassRequest);
+    UserResponse changeInfoUser(UserChangeInfoRequest userChangeInfoRequest);
 }

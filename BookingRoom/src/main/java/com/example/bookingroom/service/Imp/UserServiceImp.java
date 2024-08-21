@@ -1,76 +1,85 @@
-package com.example.bookingroom.service.Imp;
+package com.example.bookingRoom.service.Imp;
 
-import com.example.bookingroom.dto.UserDTO;
-import com.example.bookingroom.entity.User;
-import com.example.bookingroom.repository.UserRepository;
-import com.example.bookingroom.service.UserService;
+import com.example.bookingRoom.dto.request.UserChangeInfoRequest;
+import com.example.bookingRoom.dto.request.UserChangePassRequest;
+import com.example.bookingRoom.dto.request.UserCreationRequest;
+import com.example.bookingRoom.dto.request.UserRequest;
+import com.example.bookingRoom.dto.response.UserResponse;
+import com.example.bookingRoom.entity.User;
+import com.example.bookingRoom.exception.AppException;
+import com.example.bookingRoom.exception.ErrorCode;
+import com.example.bookingRoom.mapper.UserMapper;
+import com.example.bookingRoom.repository.UserRepository;
+import com.example.bookingRoom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImp implements UserService {
-
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserMapper userMapper;
 
     @Override
-    public void registerUser(UserDTO userDTO){
-        User user = new User();
-        user.setNameAccount(userDTO.getNameAccount());
-        user.setNameLogin(userDTO.getNameLogin());
-        user.setBirth(userDTO.getBirth());
-        user.setEmail(userDTO.getEmail());
-        user.setNumber(userDTO.getNumber());
-        user.setRewardPoint(0);
-        userRepository.save(user);
-    }
+    @Transactional
+    public UserResponse registerUser(UserCreationRequest userCreationRequest){
+        User user = userMapper.toUser(userCreationRequest);
 
-    @Override
-    public UserDTO getUserByNameLogin(String nameLogin) {
-        User user = userRepository.findByNameLogin(nameLogin);
-        if (user != null) {
-            UserDTO userDTO = new UserDTO();
-            userDTO.setId(user.getId());
-            userDTO.setNameAccount(user.getNameAccount());
-            userDTO.setNameLogin(user.getNameLogin());
-            userDTO.setNumber(user.getNumber());
-            userDTO.setBirth(user.getBirth());
-            userDTO.setEmail(user.getEmail());
-            userDTO.setRewardPoint(user.getRewardPoint());
-            return userDTO;
+        try {
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(7);
+            user.setPassword(passwordEncoder.encode(userCreationRequest.getPassword()));
+//            user.setRole("USER");
+            user = userRepository.save(user);
+        } catch (DataIntegrityViolationException exception){
+            throw new AppException(ErrorCode.NAME_LOGIN_EXISTED);
         }
-        return null;
+
+        return userMapper.toUserResponse(user);
     }
 
     @Override
-    public void changePassUser(UserDTO userDTO, String newPassword) {
-        User user = userRepository.findByNameLogin(userDTO.getNameLogin());
-        user.setPassword(newPassword);
-        userRepository.save(user);
+    @Transactional
+    public UserResponse changePassUser(UserChangePassRequest userChangePassRequest) {
+        User user = getUserInContext();
+
+        if(!userChangePassRequest.getCurrentPassword().equals(user.getPassword()))
+            throw new AppException(ErrorCode.WRONG_CURRENT_PASS);
+
+        user.setPassword(userChangePassRequest.getNewPassword());
+
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
     @Override
-    public void changeInfoUser(UserDTO userDTOCurrent, UserDTO userDTONew) {
-        User user = userRepository.findByNameLogin(userDTOCurrent.getNameLogin());
-        user.setNameAccount(userDTONew.getNameAccount());
-        user.setNumber(userDTONew.getNumber());
-        user.setEmail(userDTONew.getEmail());
-        user.setBirth(userDTONew.getBirth());
-        userRepository.save(user);
+    @Transactional
+    public UserResponse changeInfoUser(UserChangeInfoRequest userChangeInfoRequest) {
+        User user = getUserInContext();
+        userMapper.updateInfoUser(user, userChangeInfoRequest);
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
     @Override
-    public void changeRewardPointUser(UserDTO userDTOCurrent, UserDTO userDTONew) {
-        User user = userRepository.findByNameLogin(userDTOCurrent.getNameLogin());
+    public void changeRewardPointUser(UserRequest userDTOCurrent, UserRequest userDTONew) {
+        User user = getUserInContext();
         user.setRewardPoint(userDTONew.getRewardPoint());//using for exchange discount
         userRepository.save(user);
     }
 
     @Override
-    public boolean equalPassword(UserDTO userDTO, String password) {
-        if(userRepository.findByNameLogin(userDTO.getNameLogin()).getPassword().equals(password)){
-            return true;
-        }
-        return false;
+    public UserResponse getInfo() {
+        return userMapper.toUserResponse(getUserInContext());
+    }
+
+    private User getUserInContext(){
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        return userRepository.findByNameLogin(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
     }
 }

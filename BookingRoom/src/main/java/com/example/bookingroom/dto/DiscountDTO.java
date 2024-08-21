@@ -1,10 +1,8 @@
-package com.example.bookingroom.dto;
+package com.example.bookingRoom.dto;
 
-import com.example.bookingroom.entity.Hotel;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 public class DiscountDTO {

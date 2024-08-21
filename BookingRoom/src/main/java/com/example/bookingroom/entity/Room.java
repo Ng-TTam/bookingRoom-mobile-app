@@ -1,4 +1,4 @@
-package com.example.bookingroom.entity;
+package com.example.bookingRoom.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,20 +14,10 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private String type;
-
-    @Column(nullable = false)
     private int price;
-
-    @Column
     private String description;
-
-    @Column
     private String image;
 
     @ManyToOne

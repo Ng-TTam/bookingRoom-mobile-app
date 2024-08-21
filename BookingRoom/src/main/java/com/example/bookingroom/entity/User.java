@@ -1,41 +1,32 @@
-package com.example.bookingroom.entity;
+package com.example.bookingRoom.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Data
 @Table(name = "user")
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(nullable = false)
     private String nameAccount;
 
-    @Column(nullable = false)
+    @Column(unique = true)
     private String nameLogin;
-
-    @Column
-    private String email;
-
-    @Column(nullable = false)
-    private String number;
-
-    @Column(nullable = false)
-    private LocalDate birth;
-
-    @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    private String email;
+    private String number;
+    private LocalDate birth;
+    private String address;
     private int rewardPoint;
 }

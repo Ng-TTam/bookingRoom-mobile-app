@@ -1,0 +1,24 @@
+server:
+  port: 8080
+#  servlet:
+#    context-path: /identity
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: BookingRoom
+  datasource:
+    url: jdbc:mysql://localhost:3306/booking_room?createDatabaseIfNotExist=true
+    username: root
+    password: 15112002..ntt
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  secret: Hay0Nhac1Nho2Ban3Than4Rang5Sap6Chuyen7Nha8Roi
+  expiration: 7777
+  refreshable: 100000

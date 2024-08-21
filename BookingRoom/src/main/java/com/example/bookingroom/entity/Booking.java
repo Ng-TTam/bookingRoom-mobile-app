@@ -1,4 +1,4 @@
-package com.example.bookingroom.entity;
+package com.example.bookingRoom.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,15 +16,9 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column
     private String note;
-
-    @Column(nullable = false)
     private int totalPrice;
-
-    @Column(nullable = false)
-    private boolean isCancled;
+    private boolean isCanceled;
 
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)

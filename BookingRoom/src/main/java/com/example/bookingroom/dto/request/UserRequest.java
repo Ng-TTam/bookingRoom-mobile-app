@@ -1,13 +1,15 @@
-package com.example.bookingroom.dto;
+package com.example.bookingRoom.dto.request;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
 
-@Data
-public class UserDTO {
-    private int id;
+@Getter
+@Setter
+@Builder
+public class UserRequest {
     private String nameAccount;
     private String nameLogin;
     private String email;

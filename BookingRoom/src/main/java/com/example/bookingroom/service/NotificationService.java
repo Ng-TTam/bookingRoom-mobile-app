@@ -1,15 +1,14 @@
-package com.example.bookingroom.service;
+package com.example.bookingRoom.service;
 
-import com.example.bookingroom.dto.NotificationDTO;
-import com.example.bookingroom.dto.UserDTO;
-import com.example.bookingroom.entity.Notification;
+import com.example.bookingRoom.dto.request.UserRequest;
+import com.example.bookingRoom.dto.NotificationDTO;
 
 import java.util.List;
 
 public interface NotificationService {
-    List<NotificationDTO> getListNotificationByUser(UserDTO userDTO);
+    List<NotificationDTO> getListNotificationByUser(UserRequest userDTO);
     void addNotificationDiscount(NotificationDTO notificationDTO);
-    void addNotificationBooking(UserDTO userDTO, NotificationDTO notificationDTO);
+    void addNotificationBooking(UserRequest userDTO, NotificationDTO notificationDTO);
     void seenNotification(NotificationDTO notificationDTO);
-    void seenAllNotification(UserDTO userDTO);
+    void seenAllNotification(UserRequest userDTO);
 }

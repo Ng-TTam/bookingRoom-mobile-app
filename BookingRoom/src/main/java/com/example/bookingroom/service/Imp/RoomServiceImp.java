@@ -1,10 +1,10 @@
-package com.example.bookingroom.service.Imp;
+package com.example.bookingRoom.service.Imp;
 
-import com.example.bookingroom.dto.HotelDTO;
-import com.example.bookingroom.dto.RoomDTO;
-import com.example.bookingroom.entity.Room;
-import com.example.bookingroom.repository.RoomRepository;
-import com.example.bookingroom.service.RoomService;
+
+import com.example.bookingRoom.dto.RoomDTO;
+import com.example.bookingRoom.entity.Room;
+import com.example.bookingRoom.repository.RoomRepository;
+import com.example.bookingRoom.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

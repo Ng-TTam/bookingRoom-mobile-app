@@ -1,8 +1,8 @@
-package com.example.bookingroom.service;
+package com.example.bookingRoom.service;
 
-import com.example.bookingroom.dto.DiscountDTO;
-import com.example.bookingroom.dto.UserDTO;
+import com.example.bookingRoom.dto.request.UserRequest;
+import com.example.bookingRoom.dto.DiscountDTO;
 
 public interface UserDiscountService {
-    void addUserDiscount(UserDTO userDTO, DiscountDTO discountDTO);
+    void addUserDiscount(UserRequest userDTO, DiscountDTO discountDTO);
 }

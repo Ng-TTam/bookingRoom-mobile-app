@@ -1,6 +1,5 @@
-package com.example.bookingroom.dto;
+package com.example.bookingRoom.dto;
 
-import com.example.bookingroom.entity.Hotel;
 import lombok.Data;
 
 import java.util.List;

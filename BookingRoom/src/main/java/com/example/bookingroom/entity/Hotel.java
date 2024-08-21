@@ -1,4 +1,4 @@
-package com.example.bookingroom.entity;
+package com.example.bookingRoom.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,20 +17,10 @@ public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private int starLevel;
-
-    @Column(nullable = false)
     private String address;
-
-    @Column
     private String description;
-
-    @Column
     private String image;
 
     @OneToMany(mappedBy = "hotel")

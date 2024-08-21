@@ -1,9 +1,8 @@
-package com.example.bookingroom.repository;
+package com.example.bookingRoom.repository;
 
-import com.example.bookingroom.entity.Discount;
+import com.example.bookingRoom.entity.Discount;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
