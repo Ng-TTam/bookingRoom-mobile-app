@@ -1,19 +1,42 @@
-package com.example.bookingRoom.dto.request;
+package com.example.bookingroom.dto.request;
 
+import jakarta.validation.constraints.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreationRequest {
-    private String nameAccount;
-    private String nameLogin;
-    private String password;
+    @NotBlank(message = "BLANK_USERNAME")
+    @Size(max = 100, message = "INVALID_NAME")
+    String nameAccount;
 
-    private String email;
-    private String number;
-    private String address;
-    private LocalDate birth;
+    @NotBlank(message = "BLANK_USER")
+    String nameLogin;
+
+    @NotBlank(message = "BLANK_PASSWORD")
+    @Size(min = 8, message = "INVALID_PASSWORD")
+    String password;
+
+    @Past(message = "DOB_FUTURE")
+    LocalDate birth;
+
+    @NotBlank(message = "BLANK_NUMBER")
+    @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "INVALID_NUMBER")
+    String number;
+
+    @NotBlank(message = "BLANK_EMAIL")
+    @Email(message = "INVALID_EMAIL")
+    String email;
+
+    String address;
+
+    @NotBlank(message = "BLANK_GENDER")
+    @Pattern(regexp = "^(male|female|other)$", message = "INVALID_GENDER")
+    String gender;
 }

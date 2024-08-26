@@ -1,16 +1,19 @@
-package com.example.bookingRoom.dto;
+package com.example.bookingroom.dto;
 
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class HotelDTO {
-    private int id;
-    private String name;
-    private int starLevel;
-    private String address;
-    private String description;
-    private String image;
-    private List<RoomDTO> roomDTOs;
+    int id;
+    String name;
+    float starLevel;
+    String address;
+    String description;
+    String image;
 }

@@ -1,4 +1,4 @@
-package com.example.bookingRoom.dto.request;
+package com.example.bookingroom.dto.request;
 
 import lombok.Getter;
 

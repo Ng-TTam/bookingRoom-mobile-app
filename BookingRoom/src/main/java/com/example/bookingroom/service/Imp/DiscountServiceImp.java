@@ -1,14 +1,14 @@
-package com.example.bookingRoom.service.Imp;
+package com.example.bookingroom.service.Imp;
 
-import com.example.bookingRoom.dto.DiscountDTO;
-import com.example.bookingRoom.dto.request.UserRequest;
-import com.example.bookingRoom.entity.Discount;
-import com.example.bookingRoom.repository.DiscountRepository;
-import com.example.bookingRoom.repository.HotelRepository;
-import com.example.bookingRoom.repository.UserDiscountRepository;
-import com.example.bookingRoom.repository.UserRepository;
-import com.example.bookingRoom.service.DiscountService;
-import com.example.bookingRoom.service.HotelService;
+import com.example.bookingroom.dto.DiscountDTO;
+import com.example.bookingroom.dto.request.UserRequest;
+import com.example.bookingroom.entity.Discount;
+import com.example.bookingroom.repository.DiscountRepository;
+import com.example.bookingroom.repository.HotelRepository;
+import com.example.bookingroom.repository.UserDiscountRepository;
+import com.example.bookingroom.repository.UserRepository;
+import com.example.bookingroom.service.DiscountService;
+import com.example.bookingroom.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -105,7 +105,7 @@ public class DiscountServiceImp implements DiscountService {
         discountDTO.setUsedQuality(discount.getUsedQuality());
         discountDTO.setImage(discount.getImage());
         discountDTO.setOutOfDate(discount.getOutOfDate());
-        discountDTO.setHotelDTO(hotelService.getHotelById(discount.getHotel().getId()));
+//        discountDTO.setHotelDTO(hotelService.getHotelById(discount.getHotel().getId()));
         return discountDTO;
     }
 

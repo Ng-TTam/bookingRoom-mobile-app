@@ -1,12 +1,11 @@
-package com.example.bookingRoom.entity;
+package com.example.bookingroom.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Data
@@ -14,19 +13,25 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String nameAccount;
+    int id;
+    String nameAccount;
 
     @Column(unique = true)
-    private String nameLogin;
-    private String password;
+    String nameLogin;
+    String password;
 
-    private String email;
-    private String number;
-    private LocalDate birth;
-    private String address;
-    private int rewardPoint;
+    String email;
+    String number;
+    LocalDate birth;
+    String address;
+
+    String gender;
+    int rewardPoint;
+    
+    @ManyToMany
+    Set<Role> roles;
 }

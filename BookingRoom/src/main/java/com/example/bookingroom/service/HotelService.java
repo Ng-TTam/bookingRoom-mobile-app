@@ -1,11 +1,18 @@
-package com.example.bookingRoom.service;
+package com.example.bookingroom.service;
 
-import com.example.bookingRoom.dto.HotelDTO;
-import com.example.bookingRoom.dto.RoomDTO;
+import com.example.bookingroom.dto.HotelDTO;
+import com.example.bookingroom.dto.HotelDetailsDTO;
+import com.example.bookingroom.dto.RoomDTO;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface HotelService {
-    HotelDTO getHotelById(int id);
-    HotelDTO getHotelByRoom(RoomDTO roomDTO);
+    HotelDetailsDTO getHotel(int id);
+    List<HotelDTO> getHotels();
+    List<HotelDetailsDTO> getHotelsDetails();
+    HotelDetailsDTO create(HotelDetailsDTO hotelDetailsDTO);
+    HotelDetailsDTO update(HotelDetailsDTO hotelDetailsDTO);
+//    void delete(HotelDetailsDTO hotelDetailsDTO);
 }

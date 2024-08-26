@@ -1,6 +1,6 @@
-package com.example.bookingRoom.repository;
+package com.example.bookingroom.repository;
 
-import com.example.bookingRoom.entity.ValidToken;
+import com.example.bookingroom.entity.ValidToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

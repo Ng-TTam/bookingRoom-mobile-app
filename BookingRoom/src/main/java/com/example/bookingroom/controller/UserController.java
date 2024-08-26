@@ -1,13 +1,16 @@
-package com.example.bookingRoom.controller;
+package com.example.bookingroom.controller;
 
-import com.example.bookingRoom.dto.request.UserChangeInfoRequest;
-import com.example.bookingRoom.dto.request.UserChangePassRequest;
-import com.example.bookingRoom.dto.request.UserCreationRequest;
-import com.example.bookingRoom.dto.response.UserResponse;
-import com.example.bookingRoom.dto.ApiResponse;
-import com.example.bookingRoom.service.UserService;
+import com.example.bookingroom.dto.request.UserChangeInfoRequest;
+import com.example.bookingroom.dto.request.UserChangePassRequest;
+import com.example.bookingroom.dto.request.UserCreationRequest;
+import com.example.bookingroom.dto.response.UserResponse;
+import com.example.bookingroom.dto.ApiResponse;
+import com.example.bookingroom.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -16,13 +19,20 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public ApiResponse<UserResponse> register(@RequestBody UserCreationRequest userRequest){
+    public ApiResponse<UserResponse> register(@RequestBody @Valid UserCreationRequest userRequest){
         return ApiResponse.<UserResponse>builder()
                 .result(userService.registerUser(userRequest))
                 .build();
     }
 
-    @GetMapping
+    @GetMapping()
+    public ApiResponse<List<UserResponse>> getUsers() {
+        return ApiResponse.<List<UserResponse>>builder()
+                .result(userService.getListUser())
+                .build();
+    }
+
+    @GetMapping("/info")
     public ApiResponse<UserResponse> getUserInfo() {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.getInfo())
@@ -41,5 +51,17 @@ public class UserController {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.changeInfoUser(userChangeInfoRequest))
                 .build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ApiResponse<Void> deleteUser(@PathVariable int id){
+        userService.deleteUser(id);
+        return ApiResponse.<Void>builder().build();
+    }
+
+    @DeleteMapping("/delete/owner")
+    public ApiResponse<Void> deleteOwnerUser(){
+        userService.deleteUser();
+        return ApiResponse.<Void>builder().build();
     }
 }

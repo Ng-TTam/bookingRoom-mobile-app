@@ -1,4 +1,4 @@
-package com.example.bookingRoom.exception;
+package com.example.bookingroom.exception;
 
 public class AppException extends RuntimeException {
 

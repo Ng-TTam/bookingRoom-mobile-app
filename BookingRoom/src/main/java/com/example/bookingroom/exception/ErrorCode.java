@@ -1,4 +1,4 @@
-package com.example.bookingRoom.exception;
+package com.example.bookingroom.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public enum ErrorCode {
     BLANK_EMAIL(310, "Email is required", HttpStatus.BAD_REQUEST),
     BLANK_GENDER(311, "Gender is required", HttpStatus.BAD_REQUEST),
     BLANK_PASSWORD(312, "Password is required", HttpStatus.BAD_REQUEST),
-    BLANK_USERNAME(313, "Username is required", HttpStatus.BAD_REQUEST),
+    BLANK_USERNAME(313, "Name login is required", HttpStatus.BAD_REQUEST),
     DOB_FUTURE(314, "Date of birth must be in the past", HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTED(315, "User not existed", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(316, "Unauthenticated", HttpStatus.UNAUTHORIZED),

@@ -1,23 +1,30 @@
-package com.example.bookingRoom.service.Imp;
+package com.example.bookingroom.service.Imp;
 
-import com.example.bookingRoom.dto.request.UserChangeInfoRequest;
-import com.example.bookingRoom.dto.request.UserChangePassRequest;
-import com.example.bookingRoom.dto.request.UserCreationRequest;
-import com.example.bookingRoom.dto.request.UserRequest;
-import com.example.bookingRoom.dto.response.UserResponse;
-import com.example.bookingRoom.entity.User;
-import com.example.bookingRoom.exception.AppException;
-import com.example.bookingRoom.exception.ErrorCode;
-import com.example.bookingRoom.mapper.UserMapper;
-import com.example.bookingRoom.repository.UserRepository;
-import com.example.bookingRoom.service.UserService;
+import com.example.bookingroom.constrant.PredefinedRole;
+import com.example.bookingroom.dto.request.UserChangeInfoRequest;
+import com.example.bookingroom.dto.request.UserChangePassRequest;
+import com.example.bookingroom.dto.request.UserCreationRequest;
+import com.example.bookingroom.dto.request.UserRequest;
+import com.example.bookingroom.dto.response.UserResponse;
+import com.example.bookingroom.entity.Role;
+import com.example.bookingroom.entity.User;
+import com.example.bookingroom.exception.AppException;
+import com.example.bookingroom.exception.ErrorCode;
+import com.example.bookingroom.mapper.UserMapper;
+import com.example.bookingroom.repository.RoleRepository;
+import com.example.bookingroom.repository.UserRepository;
+import com.example.bookingroom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
+import java.util.List;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -25,16 +32,22 @@ public class UserServiceImp implements UserService {
     UserRepository userRepository;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    RoleRepository roleRepository;
+
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(7);
 
     @Override
     @Transactional
     public UserResponse registerUser(UserCreationRequest userCreationRequest){
         User user = userMapper.toUser(userCreationRequest);
+        user.setPassword(passwordEncoder.encode(userCreationRequest.getPassword()));
+
+        HashSet<Role> roles = new HashSet<>();
+        roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
+        user.setRoles(roles);
 
         try {
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(7);
-            user.setPassword(passwordEncoder.encode(userCreationRequest.getPassword()));
-//            user.setRole("USER");
             user = userRepository.save(user);
         } catch (DataIntegrityViolationException exception){
             throw new AppException(ErrorCode.NAME_LOGIN_EXISTED);
@@ -45,6 +58,8 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
+//    @PreAuthorize("hasAuthority('CHANGE_PASS')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public UserResponse changePassUser(UserChangePassRequest userChangePassRequest) {
         User user = getUserInContext();
 
@@ -58,6 +73,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public UserResponse changeInfoUser(UserChangeInfoRequest userChangeInfoRequest) {
         User user = getUserInContext();
         userMapper.updateInfoUser(user, userChangeInfoRequest);
@@ -65,6 +81,19 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteUser(int id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('USER')")
+    public void deleteUser() {
+        userRepository.delete(getUserInContext());
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public void changeRewardPointUser(UserRequest userDTOCurrent, UserRequest userDTONew) {
         User user = getUserInContext();
         user.setRewardPoint(userDTONew.getRewardPoint());//using for exchange discount
@@ -72,8 +101,16 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public UserResponse getInfo() {
         return userMapper.toUserResponse(getUserInContext());
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<UserResponse> getListUser() {
+        var users = userRepository.findAll();
+        return users.stream().map(userMapper::toUserResponse).toList();
     }
 
     private User getUserInContext(){

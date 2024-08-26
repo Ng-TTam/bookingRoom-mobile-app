@@ -1,28 +1,30 @@
-package com.example.bookingRoom.entity;
+package com.example.bookingroom.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
 @Table(name = "hotel")
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Hotel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String name;
-    private int starLevel;
-    private String address;
-    private String description;
-    private String image;
+    int id;
+    String name;
+    float starLevel;
+    String address;
+    String description;
+    String image;
 
-    @OneToMany(mappedBy = "hotel")
-    private List<Room> rooms;
+    @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY)
+    List<Room> rooms;
 }

@@ -1,14 +1,14 @@
-package com.example.bookingRoom.controller;
+package com.example.bookingroom.controller;
 
-import com.example.bookingRoom.dto.request.AuthenticationRequest;
-import com.example.bookingRoom.dto.request.LogoutRequest;
-import com.example.bookingRoom.dto.request.RefreshRequest;
-import com.example.bookingRoom.dto.request.VerifyTokenRequest;
-import com.example.bookingRoom.dto.response.AuthenticationResponse;
-import com.example.bookingRoom.dto.response.TokenResponse;
-import com.example.bookingRoom.dto.response.VerifyTokenResponse;
-import com.example.bookingRoom.service.Imp.AuthenticationService;
-import com.example.bookingRoom.dto.ApiResponse;
+import com.example.bookingroom.dto.request.AuthenticationRequest;
+import com.example.bookingroom.dto.request.LogoutRequest;
+import com.example.bookingroom.dto.request.RefreshRequest;
+import com.example.bookingroom.dto.request.VerifyTokenRequest;
+import com.example.bookingroom.dto.response.AuthenticationResponse;
+import com.example.bookingroom.dto.response.TokenResponse;
+import com.example.bookingroom.dto.response.VerifyTokenResponse;
+import com.example.bookingroom.service.Imp.AuthenticationService;
+import com.example.bookingroom.dto.ApiResponse;
 import com.nimbusds.jose.JOSEException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

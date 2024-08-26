@@ -1,18 +1,18 @@
-package com.example.bookingRoom.service.Imp;
+package com.example.bookingroom.service.Imp;
 
-import com.example.bookingRoom.dto.response.AuthenticationResponse;
-import com.example.bookingRoom.dto.response.TokenResponse;
-import com.example.bookingRoom.dto.response.VerifyTokenResponse;
-import com.example.bookingRoom.dto.request.AuthenticationRequest;
-import com.example.bookingRoom.dto.request.LogoutRequest;
-import com.example.bookingRoom.dto.request.RefreshRequest;
-import com.example.bookingRoom.dto.request.VerifyTokenRequest;
-import com.example.bookingRoom.entity.User;
-import com.example.bookingRoom.entity.ValidToken;
-import com.example.bookingRoom.exception.AppException;
-import com.example.bookingRoom.exception.ErrorCode;
-import com.example.bookingRoom.repository.UserRepository;
-import com.example.bookingRoom.repository.ValidTokenRepository;
+import com.example.bookingroom.dto.response.AuthenticationResponse;
+import com.example.bookingroom.dto.response.TokenResponse;
+import com.example.bookingroom.dto.response.VerifyTokenResponse;
+import com.example.bookingroom.dto.request.AuthenticationRequest;
+import com.example.bookingroom.dto.request.LogoutRequest;
+import com.example.bookingroom.dto.request.RefreshRequest;
+import com.example.bookingroom.dto.request.VerifyTokenRequest;
+import com.example.bookingroom.entity.User;
+import com.example.bookingroom.entity.ValidToken;
+import com.example.bookingroom.exception.AppException;
+import com.example.bookingroom.exception.ErrorCode;
+import com.example.bookingroom.repository.UserRepository;
+import com.example.bookingroom.repository.ValidTokenRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.time.Instant;
@@ -166,15 +167,14 @@ public class AuthenticationService {
 
     private String buildScope(User user){
         StringJoiner stringJoiner = new StringJoiner(" ");
-//        stringJoiner.add("ROLE_" + user.getRole());
 
-//        if (!CollectionUtils.isEmpty(user.getRoles())) //add role and permission
-//            user.getRoles().forEach(role -> {
-//                stringJoiner.add("ROLE_" + role.getName());
-//                if (!CollectionUtils.isEmpty(role.getPermissions()))
-//                    role.getPermissions()
-//                            .forEach(permission -> stringJoiner.add(permission.getName()));
-//            });
+        if (!CollectionUtils.isEmpty(user.getRoles())) //add role and permission
+            user.getRoles().forEach(role -> {
+                stringJoiner.add("ROLE_" + role.getName());
+                if (!CollectionUtils.isEmpty(role.getPermissions()))
+                    role.getPermissions()
+                            .forEach(permission -> stringJoiner.add(permission.getName()));
+            });
 
         return stringJoiner.toString();
     }

@@ -1,10 +1,10 @@
-package com.example.bookingRoom.mapper;
+package com.example.bookingroom.mapper;
 
-import com.example.bookingRoom.dto.request.UserChangeInfoRequest;
-import com.example.bookingRoom.dto.request.UserCreationRequest;
-import com.example.bookingRoom.dto.request.UserRequest;
-import com.example.bookingRoom.dto.response.UserResponse;
-import com.example.bookingRoom.entity.User;
+import com.example.bookingroom.dto.request.UserChangeInfoRequest;
+import com.example.bookingroom.dto.request.UserCreationRequest;
+import com.example.bookingroom.dto.request.UserRequest;
+import com.example.bookingroom.dto.response.UserResponse;
+import com.example.bookingroom.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 

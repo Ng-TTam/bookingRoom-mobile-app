@@ -9,9 +9,9 @@ spring:
   application:
     name: BookingRoom
   datasource:
-    url: jdbc:mysql://localhost:3306/booking_room?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3308/booking_room?createDatabaseIfNotExist=true
     username: root
-    password: 15112002..ntt
+    password: root
   jpa:
     generate-ddl: true
     hibernate:

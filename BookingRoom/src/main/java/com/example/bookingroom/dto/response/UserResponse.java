@@ -1,21 +1,27 @@
-package com.example.bookingRoom.dto.response;
+package com.example.bookingroom.dto.response;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserResponse {
-    private int id;
-    private String nameAccount;
-    private String nameLogin;
-    private String email;
-    private String number;
-    private LocalDate birth;
-    private String address;
-    private int rewardPoint;
+    int id;
+    String nameAccount;
+    String nameLogin;
+    String email;
+    String number;
+    LocalDate birth;
+    String address;
+    String gender;
+    int rewardPoint;
+
+    Set<RoleResponse> roles;
 }

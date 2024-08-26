@@ -1,11 +1,11 @@
-package com.example.bookingRoom.service.Imp;
+package com.example.bookingroom.service.Imp;
 
-import com.example.bookingRoom.dto.NotificationDTO;
-import com.example.bookingRoom.dto.request.UserRequest;
-import com.example.bookingRoom.entity.Notification;
-import com.example.bookingRoom.repository.NotificationRepository;
-import com.example.bookingRoom.repository.UserRepository;
-import com.example.bookingRoom.service.NotificationService;
+import com.example.bookingroom.dto.NotificationDTO;
+import com.example.bookingroom.dto.request.UserRequest;
+import com.example.bookingroom.entity.Notification;
+import com.example.bookingroom.repository.NotificationRepository;
+import com.example.bookingroom.repository.UserRepository;
+import com.example.bookingroom.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

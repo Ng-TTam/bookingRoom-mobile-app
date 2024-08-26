@@ -1,13 +1,21 @@
-package com.example.bookingRoom.dto;
+package com.example.bookingroom.dto;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
-@Data
+@Getter
+@Setter
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoomDTO {
-    private int id;
-    private String name;
-    private String type;
-    private int price;
-    private String description;
-    private String image;
+    int id;
+    String name;
+    String type;
+    int price;
+    String description;
+    String image;
+    boolean isActive;
 }

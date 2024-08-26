@@ -1,6 +1,6 @@
-package com.example.bookingRoom.exception;
+package com.example.bookingroom.exception;
 
-import com.example.bookingRoom.dto.ApiResponse;
+import com.example.bookingroom.dto.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
