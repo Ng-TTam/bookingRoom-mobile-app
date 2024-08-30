@@ -1,9 +1,10 @@
 package com.example.bookingroom.controller;
 
-import com.example.bookingroom.dto.ApiResponse;
-import com.example.bookingroom.dto.HotelDTO;
-import com.example.bookingroom.dto.HotelDetailsDTO;
-import com.example.bookingroom.dto.RoomDTO;
+import com.example.bookingroom.dto.reqResp.RoomDetailsDTO;
+import com.example.bookingroom.dto.response.ApiResponse;
+import com.example.bookingroom.dto.reqResp.HotelDTO;
+import com.example.bookingroom.dto.reqResp.HotelDetailsDTO;
+import com.example.bookingroom.dto.reqResp.RoomDTO;
 import com.example.bookingroom.service.HotelService;
 import com.example.bookingroom.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +34,31 @@ public class HotelController {
                 .build();
     }
 
-    @GetMapping("/{hotel_id}")
+    @GetMapping("/{hotelId}")
     public ApiResponse<HotelDetailsDTO> getHotel(@PathVariable int hotelId){
         return ApiResponse.<HotelDetailsDTO>builder()
                 .result(hotelService.getHotel(hotelId))
                 .build();
     }
 
-    @GetMapping("/{hotel_id}/rooms")
+    @GetMapping("/{hotelId}/rooms")
     public ApiResponse<List<RoomDTO>> getRooms(@PathVariable int hotelId){
         return ApiResponse.<List<RoomDTO>>builder()
                 .result(roomService.getRoomsByHotelId(hotelId))
+                .build();
+    }
+
+    @PutMapping("/{hotelId}")
+    public ApiResponse<HotelDTO> editHotel(@PathVariable int hotelId, @RequestBody HotelDTO hotelDTO){
+        return ApiResponse.<HotelDTO>builder()
+                .result(hotelService.update(hotelId, hotelDTO))
+                .build();
+    }
+
+    @GetMapping("/{hotelId}/rooms/{roomId}")
+    public ApiResponse<RoomDetailsDTO> getRoom(@PathVariable int hotelId, @PathVariable int roomId){
+        return ApiResponse.<RoomDetailsDTO>builder()
+                .result(roomService.getRoom(hotelId, roomId))
                 .build();
     }
 }

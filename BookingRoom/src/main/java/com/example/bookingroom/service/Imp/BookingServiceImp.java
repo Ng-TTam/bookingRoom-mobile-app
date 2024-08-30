@@ -1,20 +1,24 @@
 package com.example.bookingroom.service.Imp;
 
 
-import com.example.bookingroom.dto.BookedRoomDTO;
-import com.example.bookingroom.dto.BookingDTO;
-import com.example.bookingroom.dto.request.UserRequest;
+import com.example.bookingroom.dto.reqResp.BookingDTO;
 import com.example.bookingroom.entity.BookedRoom;
 import com.example.bookingroom.entity.Booking;
+import com.example.bookingroom.exception.AppException;
+import com.example.bookingroom.exception.ErrorCode;
+import com.example.bookingroom.mapper.BookedRoomMapper;
+import com.example.bookingroom.mapper.BookingMapper;
 import com.example.bookingroom.repository.BookedRoomRepository;
 import com.example.bookingroom.repository.BookingRepository;
-import com.example.bookingroom.service.BookedRoomService;
+import com.example.bookingroom.repository.UserRepository;
 import com.example.bookingroom.service.BookingService;
-import com.example.bookingroom.service.HotelService;
+import com.example.bookingroom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,70 +26,57 @@ public class BookingServiceImp implements BookingService {
     @Autowired
     BookingRepository bookingRepository;
     @Autowired
+    BookingMapper bookingMapper;
+    @Autowired
+    BookedRoomMapper bookedRoomMapper;
+    @Autowired
     BookedRoomRepository bookedRoomRepository;
     @Autowired
-    BookedRoomService bookedRoomService;
-    @Autowired
-    HotelService hotelService;
+    UserServiceImp userService;
 
     @Override
-    public List<BookingDTO> getListBookingByUser(UserRequest userDTO) {
-//        List<Booking> bookings = bookingRepository.findAll();
-//        List<BookingDTO> bookingDTOS = new ArrayList<>();
-//        for(Booking booking: bookings){
-//            if(booking.getUser().getId() == userDTO.getId()) {
-//                BookingDTO bookingDTO = new BookingDTO();
-//                bookingDTO.setId(booking.getId());
-//                bookingDTO.setNote(booking.getNote());
-//                bookingDTO.setTotalPrice(booking.getTotalPrice());
-//                bookingDTO.setCancled(booking.isCancled());
-//
-//                //get list bookedRoomDTOs => get hotel contains room
-//                //bookedRoom contain rooms in the same hotel
-//                List<BookedRoomDTO> bookedRoomDTOs = bookedRoomService.getListBookedRoomByBooking(bookingDTO);
-//                bookingDTO.setBookedRoomDTOs(bookedRoomDTOs);
-//                BookedRoomDTO bookedRoomDTO = bookedRoomDTOs.get(0);
-//                bookingDTO.setHotelDTO(hotelService.getHotelByRoom(bookedRoomDTO.getRoomDTO()));
-//                bookingDTOS.add(bookingDTO);
-//            }
-//        }
-//        if(!bookingDTOS.isEmpty()) return bookingDTOS;
-        return null;
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    public BookingDTO create(BookingDTO bookingDTO) {
+        var booking = bookingMapper.toBooking(bookingDTO);
+        booking.setUser(userService.getUserInContext());
+        Booking finalBooking = bookingRepository.save(booking);
+
+        booking.getBookedRooms().forEach(bookedRoom -> {
+            bookedRoom.setBooking(finalBooking);
+
+            bookedRoomRepository.save(bookedRoom);
+        });
+        return bookingMapper.toBookingDTO(finalBooking);
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    public List<BookingDTO> getListBookingByUser() {
+        var bookings = bookingRepository.findByUser(userService.getUserInContext());
+
+        return bookings.stream().map(bookingMapper::toBookingDTO).toList();
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public BookingDTO getBookingById(int id) {
-        Booking booking = bookingRepository.findById(id);
-        BookingDTO bookingDTO = new BookingDTO();
-//        bookingDTO.setId(booking.getId());
-//        bookingDTO.setNote(booking.getNote());
-//        bookingDTO.setTotalPrice(booking.getTotalPrice());
-//        bookingDTO.setCancled(booking.isCancled());
-//
-//        //get list bookedRoomDTOs => get hotel contains room
-//        //bookedRoom contain rooms in the same hotel
-//        List<BookedRoomDTO> bookedRoomDTOs = bookedRoomService.getListBookedRoomByBooking(bookingDTO);
-//        bookingDTO.setBookedRoomDTOs(bookedRoomDTOs);
-//        BookedRoomDTO bookedRoomDTO = bookedRoomDTOs.get(0);
-//        bookingDTO.setHotelDTO(hotelService.getHotelByRoom(bookedRoomDTO.getRoomDTO()));
-        return bookingDTO;
+        Booking booking = bookingRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.BOOKING_NOT_EXISTED)
+        );
+        return bookingMapper.toBookingDTO(booking);
     }
 
     @Override
-    public void updateBooking(BookingDTO bookingDTO) {
-        Booking booking = bookingRepository.findById(bookingDTO.getId());
-//        booking.setCancled(bookingDTO.isCancled());
-//        booking.setTotalPrice(bookingDTO.getTotalPrice());
-//
-//        //update list bookedrooms table in booking
-//        for(BookedRoomDTO bookedRoomDTO: bookingDTO.getBookedRoomDTOs()){
-//            BookedRoom bookedRoom = bookedRoomRepository.findById(bookedRoomDTO.getId());
-//            bookedRoom.setCheckIn(bookedRoomDTO.getCheckIn());
-//            bookedRoom.setCheckOut(bookedRoomDTO.getCheckOut());
-//            bookedRoom.setPrice(bookedRoomDTO.getPrice());
-//            bookedRoomRepository.save(bookedRoom);
-//        }
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    public BookingDTO updateBooking(int bookingId, BookingDTO bookingDTO) {
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(
+                () -> new AppException(ErrorCode.BOOKING_NOT_EXISTED)
+        );
 
-        bookingRepository.save(booking);
+        bookingMapper.update(booking, bookingDTO);
+
+        return bookingMapper.toBookingDTO(bookingRepository.save(booking));
     }
 }

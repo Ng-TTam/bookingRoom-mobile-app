@@ -1,4 +1,4 @@
-package com.example.bookingroom.dto;
+package com.example.bookingroom.dto.reqResp;
 
 import lombok.AccessLevel;
 import lombok.Builder;

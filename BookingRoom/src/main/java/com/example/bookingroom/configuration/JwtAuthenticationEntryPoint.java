@@ -1,6 +1,6 @@
 package com.example.bookingroom.configuration;
 
-import com.example.bookingroom.dto.ApiResponse;
+import com.example.bookingroom.dto.response.ApiResponse;
 import com.example.bookingroom.exception.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;

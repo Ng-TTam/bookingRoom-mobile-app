@@ -1,15 +1,19 @@
 package com.example.bookingroom.service.Imp;
 
-import com.example.bookingroom.dto.HotelDTO;
-import com.example.bookingroom.dto.HotelDetailsDTO;
-import com.example.bookingroom.dto.RoomDTO;
+import com.example.bookingroom.dto.reqResp.HotelDTO;
+import com.example.bookingroom.dto.reqResp.HotelDetailsDTO;
+import com.example.bookingroom.entity.Hotel;
+import com.example.bookingroom.exception.AppException;
+import com.example.bookingroom.exception.ErrorCode;
 import com.example.bookingroom.mapper.HotelMapper;
+import com.example.bookingroom.mapper.RoomMapper;
 import com.example.bookingroom.repository.HotelRepository;
 import com.example.bookingroom.repository.RoomRepository;
 import com.example.bookingroom.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,11 +25,14 @@ public class HotelServiceImp implements HotelService {
     RoomRepository roomRepository;
     @Autowired
     HotelMapper hotelMapper;
+    @Autowired
+    RoomMapper roomMapper;
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public HotelDetailsDTO getHotel(int id) {
-        return hotelMapper.toHotelDetailsDTO(hotelRepository.findById(id));
+        Hotel hotel = hotelRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.HOTEL_NOT_EXISTED));
+        return hotelMapper.toHotelDetailsDTO(hotel);
     }
 
     @Override
@@ -44,15 +51,24 @@ public class HotelServiceImp implements HotelService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
+    @Transactional
     public HotelDetailsDTO create(HotelDetailsDTO hotelDetailsDTO) {
-        return hotelMapper.toHotelDetailsDTO(
-                hotelRepository.save(hotelMapper.toHotel(hotelDetailsDTO))
-        );
+        var hotel = hotelRepository.save(hotelMapper.toHotel(hotelDetailsDTO));
+        hotelDetailsDTO.getRooms().forEach(roomDTO -> {
+            var room = roomMapper.toRoom(roomDTO);
+            room.setHotel(hotel);
+            roomRepository.save(room);
+        });
+        return hotelMapper.toHotelDetailsDTO(hotel);
     }
 
     @Override
-    public HotelDetailsDTO update(HotelDetailsDTO hotelDetailsDTO) {
-        return null;
+    @PreAuthorize("hasRole('ADMIN')")
+    @Transactional
+    public HotelDTO update(int hotelId,HotelDTO hotelDTO) {
+        var hotel = hotelRepository.findById(hotelId).orElseThrow(() -> new AppException(ErrorCode.HOTEL_NOT_EXISTED));
+        hotelMapper.updateHotel(hotel, hotelDTO);
+        return hotelMapper.toHotelDTO(hotelRepository.save(hotel));
     }
 
 }

@@ -1,6 +1,6 @@
 //package com.example.bookingroom.controller;
 //
-//import com.example.bookingroom.dto.DiscountDTO;
+//import com.example.bookingroom.dto.reqResp.DiscountDTO;
 //import com.example.bookingroom.dto.request.UserRequest;
 //import com.example.bookingroom.service.DiscountService;
 //import com.example.bookingroom.service.UserDiscountService;

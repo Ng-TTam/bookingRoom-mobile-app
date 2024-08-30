@@ -1,9 +1,9 @@
-package com.example.bookingroom.dto;
+package com.example.bookingroom.dto.reqResp;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -13,11 +13,15 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BookedRoomDTO {
     int id;
-    LocalDate checkIn;
-    LocalDate checkOut;
+    LocalDateTime checkIn;
+    LocalDateTime checkOut;
     int price;
     boolean isCheckIn;
     boolean isCanceled;
-    RoomDTO room;
+
+    LocalDateTime createdAt;
+    LocalDateTime updateAt;
+
+    RoomDetailsDTO room;
     DiscountDTO discount;
 }

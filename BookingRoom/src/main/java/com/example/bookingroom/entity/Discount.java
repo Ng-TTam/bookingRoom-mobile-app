@@ -1,33 +1,35 @@
 package com.example.bookingroom.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "discount")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String term;
-    private String type;
-    private int rewardPoint;
-    private int leastAmountUsed;
-    private int largestAmountReduce;
-    private int reducedPrice;
-    private int quality;
-    private int usedQuality;
-    private String image;
-    private LocalDate outOfDate;
+    int id;
+    String term;
+    String type;
+    int rewardPoint;
+    int leastAmountUsed;
+    int largestAmountReduce;
+    int reducedPrice;
+    int quality;
+    int usedQuality;
+    String image;
+    LocalDate outOfDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hotel_id",nullable = false)
-    private Hotel hotel;
+    Hotel hotel;
 }

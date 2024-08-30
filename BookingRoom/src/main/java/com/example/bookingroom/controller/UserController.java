@@ -4,7 +4,7 @@ import com.example.bookingroom.dto.request.UserChangeInfoRequest;
 import com.example.bookingroom.dto.request.UserChangePassRequest;
 import com.example.bookingroom.dto.request.UserCreationRequest;
 import com.example.bookingroom.dto.response.UserResponse;
-import com.example.bookingroom.dto.ApiResponse;
+import com.example.bookingroom.dto.response.ApiResponse;
 import com.example.bookingroom.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

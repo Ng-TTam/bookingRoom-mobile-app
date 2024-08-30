@@ -35,7 +35,7 @@ public class SecurityConfiguration {
         httpSecurity.authorizeHttpRequests(request ->
                 request.requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS)
                         .permitAll()
-                        .requestMatchers(HttpMethod.GET,"/hotels/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/hotels/**","/image/**").permitAll()
                         .anyRequest().authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 ->

@@ -8,7 +8,7 @@ import com.example.bookingroom.dto.response.AuthenticationResponse;
 import com.example.bookingroom.dto.response.TokenResponse;
 import com.example.bookingroom.dto.response.VerifyTokenResponse;
 import com.example.bookingroom.service.Imp.AuthenticationService;
-import com.example.bookingroom.dto.ApiResponse;
+import com.example.bookingroom.dto.response.ApiResponse;
 import com.nimbusds.jose.JOSEException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,9 +1,7 @@
-package com.example.bookingroom.dto;
+package com.example.bookingroom.dto.reqResp;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.List;
 
 @Getter
 @Setter

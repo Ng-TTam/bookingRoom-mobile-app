@@ -1,4 +1,4 @@
-package com.example.bookingroom.dto;
+package com.example.bookingroom.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

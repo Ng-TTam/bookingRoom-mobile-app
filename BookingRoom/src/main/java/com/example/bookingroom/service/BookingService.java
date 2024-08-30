@@ -1,12 +1,12 @@
 package com.example.bookingroom.service;
 
-import com.example.bookingroom.dto.request.UserRequest;
-import com.example.bookingroom.dto.BookingDTO;
+import com.example.bookingroom.dto.reqResp.BookingDTO;
 
 import java.util.List;
 
 public interface BookingService {
-    List<BookingDTO> getListBookingByUser(UserRequest userDTO);
+    BookingDTO create(BookingDTO bookingDTO);
+    List<BookingDTO> getListBookingByUser();
     BookingDTO getBookingById(int id);
-    void updateBooking(BookingDTO bookingDTO);
+    BookingDTO updateBooking(int bookingId,BookingDTO bookingDTO);
 }

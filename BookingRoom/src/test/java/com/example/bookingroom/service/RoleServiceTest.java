@@ -1,4 +1,4 @@
-package com.example.bookingroom.Service;
+package com.example.bookingroom.service;
 
 import com.example.bookingroom.dto.request.RoleRequest;
 import com.example.bookingroom.dto.response.PermissionResponse;
@@ -6,7 +6,6 @@ import com.example.bookingroom.dto.response.RoleResponse;
 import com.example.bookingroom.entity.Permission;
 import com.example.bookingroom.entity.Role;
 import com.example.bookingroom.repository.RoleRepository;
-import com.example.bookingroom.service.RoleService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

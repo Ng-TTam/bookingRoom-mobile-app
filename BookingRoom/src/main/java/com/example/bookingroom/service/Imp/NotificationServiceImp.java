@@ -1,6 +1,6 @@
 package com.example.bookingroom.service.Imp;
 
-import com.example.bookingroom.dto.NotificationDTO;
+import com.example.bookingroom.dto.reqResp.NotificationDTO;
 import com.example.bookingroom.dto.request.UserRequest;
 import com.example.bookingroom.entity.Notification;
 import com.example.bookingroom.repository.NotificationRepository;

@@ -24,6 +24,10 @@ public enum ErrorCode {
     USER_NOT_EXISTED(315, "User not existed", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(316, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     WRONG_CURRENT_PASS(317, "Current password is wrong", HttpStatus.BAD_REQUEST),
+    HOTEL_NOT_EXISTED(318,"Hotel doesn't not existed", HttpStatus.NOT_FOUND),
+    ROOM_NOT_EXISTED(319, "Room doesn't not existed", HttpStatus.NOT_FOUND),
+    BOOKING_NOT_EXISTED(320, "Booking does'nt not existed", HttpStatus.NOT_FOUND),
+    ROOM_NOT_EXISTED_IN_HOTEL(321, "Room not existed in hotel id", HttpStatus.NOT_FOUND),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

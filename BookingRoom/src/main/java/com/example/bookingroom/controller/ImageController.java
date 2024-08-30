@@ -10,12 +10,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
+@RequestMapping("/image")
 public class ImageController {
 
     private static final String IMAGE_DIRECTORY =
             "C:\\Users\\Boot10\\IdeaProjects\\BookingRoom\\src\\main\\resources\\static\\hotels";
 
-    @RequestMapping(value = "/image/hotels/{imageName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/hotels/{imageName}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<ByteArrayResource> getImage(@PathVariable String imageName) {
 
@@ -37,7 +38,7 @@ public class ImageController {
     private static final String IMAGE_DISCOUNT_DIRECTORY =
             "C:\\Users\\Boot10\\IdeaProjects\\BookingRoom\\src\\main\\resources\\static\\discounts";
 
-    @RequestMapping(value = "/image/discounts/{imageName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/discounts/{imageName}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<ByteArrayResource> getImageDiscount(@PathVariable String imageName) {
 
@@ -60,7 +61,7 @@ public class ImageController {
     private static final String IMAGE_ROOM_DIRECTORY =
             "C:\\Users\\Boot10\\IdeaProjects\\BookingRoom\\src\\main\\resources\\static\\rooms";
 
-    @RequestMapping(value = "/image/rooms/{imageName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/rooms/{imageName}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<ByteArrayResource> getImageRoom(@PathVariable String imageName) {
 

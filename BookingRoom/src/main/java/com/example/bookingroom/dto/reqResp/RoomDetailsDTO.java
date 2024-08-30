@@ -1,4 +1,4 @@
-package com.example.bookingroom.dto;
+package com.example.bookingroom.dto.reqResp;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,5 +18,5 @@ public class RoomDetailsDTO {
     String description;
     String image;
     boolean isActive;
-    HotelDetailsDTO hotel;
+    HotelDTO hotel;
 }

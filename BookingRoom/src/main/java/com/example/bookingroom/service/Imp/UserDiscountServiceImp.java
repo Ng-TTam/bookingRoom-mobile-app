@@ -1,6 +1,6 @@
 package com.example.bookingroom.service.Imp;
 
-import com.example.bookingroom.dto.DiscountDTO;
+import com.example.bookingroom.dto.reqResp.DiscountDTO;
 import com.example.bookingroom.dto.request.UserRequest;
 import com.example.bookingroom.entity.UserDiscount;
 import com.example.bookingroom.repository.DiscountRepository;

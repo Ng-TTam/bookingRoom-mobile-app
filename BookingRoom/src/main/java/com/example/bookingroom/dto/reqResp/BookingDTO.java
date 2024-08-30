@@ -1,9 +1,10 @@
-package com.example.bookingroom.dto;
+package com.example.bookingroom.dto.reqResp;
 
 import com.example.bookingroom.dto.response.UserResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -17,6 +18,8 @@ public class BookingDTO {
     String note;
     int totalPrice;
     boolean isCanceled;
+    LocalDateTime createdAt;
+    LocalDateTime updateAt;
     List<BookedRoomDTO> bookedRooms;
     UserResponse user;
 }

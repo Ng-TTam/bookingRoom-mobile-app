@@ -1,31 +1,50 @@
 package com.example.bookingroom.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "booked_room")
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@EntityListeners(AuditingEntityListener.class)
 public class BookedRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private LocalDate checkIn;
-    private LocalDate checkOut;
-    private int price;
-    private int isCheckIn;
+    int id;
+    LocalDateTime checkIn;
+    LocalDateTime checkOut;
+    int price;
+    boolean isCheckIn;
+    boolean isCanceled;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    LocalDateTime createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    LocalDateTime updateAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id",nullable = false)
-    private Room room;
+    Room room;
+
+    @OneToOne
+    @JoinColumn(name = "discount_id")
+    Discount discount;
 
     @ManyToOne
     @JoinColumn(name = "booking_id",nullable = false)
-    private Booking booking;
+    Booking booking;
 }

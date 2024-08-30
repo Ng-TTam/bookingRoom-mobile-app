@@ -1,6 +1,6 @@
 package com.example.bookingroom.service.Imp;
 
-import com.example.bookingroom.dto.DiscountDTO;
+import com.example.bookingroom.dto.reqResp.DiscountDTO;
 import com.example.bookingroom.dto.request.UserRequest;
 import com.example.bookingroom.entity.Discount;
 import com.example.bookingroom.repository.DiscountRepository;
@@ -92,38 +92,24 @@ public class DiscountServiceImp implements DiscountService {
 
     @Override
     public DiscountDTO getDiscountByID(int id){
-        Discount discount = discountRepository.findById(id);
-        DiscountDTO discountDTO = new DiscountDTO();
-        discountDTO.setId(discount.getId());
-        discountDTO.setTerm(discount.getTerm());
-        discountDTO.setType(discount.getType());
-        discountDTO.setRewardPoint(discount.getRewardPoint());
-        discountDTO.setLeastAmountUsed(discount.getLeastAmountUsed());
-        discountDTO.setLargestAmountReduce(discount.getLargestAmountReduce());
-        discountDTO.setReducedPrice(discount.getReducedPrice());
-        discountDTO.setQuality(discount.getQuality());
-        discountDTO.setUsedQuality(discount.getUsedQuality());
-        discountDTO.setImage(discount.getImage());
-        discountDTO.setOutOfDate(discount.getOutOfDate());
+//        Discount discount = discountRepository.findById(id);
+//        DiscountDTO discountDTO = new DiscountDTO();
+//        discountDTO.setId(discount.getId());
+//        discountDTO.setTerm(discount.getTerm());
+//        discountDTO.setType(discount.getType());
+//        discountDTO.setRewardPoint(discount.getRewardPoint());
+//        discountDTO.setLeastAmountUsed(discount.getLeastAmountUsed());
+//        discountDTO.setLargestAmountReduce(discount.getLargestAmountReduce());
+//        discountDTO.setReducedPrice(discount.getReducedPrice());
+//        discountDTO.setQuality(discount.getQuality());
+//        discountDTO.setUsedQuality(discount.getUsedQuality());
+//        discountDTO.setImage(discount.getImage());
+//        discountDTO.setOutOfDate(discount.getOutOfDate());
 //        discountDTO.setHotelDTO(hotelService.getHotelById(discount.getHotel().getId()));
-        return discountDTO;
+        return null;
     }
 
     @Override
     public void addDiscount(DiscountDTO discountDTO) {
-        Discount discount = new Discount();
-        discount.setId(discountDTO.getId());
-        discount.setTerm(discountDTO.getTerm());
-        discount.setType(discountDTO.getType());
-        discount.setRewardPoint(discountDTO.getRewardPoint());
-        discount.setLeastAmountUsed(discountDTO.getLeastAmountUsed());
-        discount.setLargestAmountReduce(discountDTO.getLargestAmountReduce());
-        discount.setReducedPrice(discountDTO.getReducedPrice());
-        discount.setQuality(discountDTO.getQuality());
-        discount.setUsedQuality(discountDTO.getUsedQuality());
-        discount.setImage(discountDTO.getImage());
-        discount.setOutOfDate(discountDTO.getOutOfDate());
-        discount.setHotel(hotelRepository.findById(discountDTO.getHotelDTO().getId()));
-        discountRepository.save(discount);
     }
 }

@@ -1,29 +1,45 @@
 package com.example.bookingroom.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "booking")
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@EntityListeners(AuditingEntityListener.class)
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String note;
-    private int totalPrice;
-    private boolean isCanceled;
+    int id;
+    String note;
+    int totalPrice;
+    boolean isCanceled;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    LocalDateTime createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    LocalDateTime updateAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
-    private User user;
+    User user;
 
     @OneToMany(mappedBy = "booking")
-    private List<BookedRoom> bookedRooms;
+    List<BookedRoom> bookedRooms;
 }

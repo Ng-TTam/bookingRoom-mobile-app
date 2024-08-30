@@ -113,7 +113,7 @@ public class UserServiceImp implements UserService {
         return users.stream().map(userMapper::toUserResponse).toList();
     }
 
-    private User getUserInContext(){
+    public User getUserInContext(){
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
 

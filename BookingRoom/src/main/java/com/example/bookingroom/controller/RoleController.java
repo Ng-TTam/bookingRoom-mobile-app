@@ -1,6 +1,6 @@
 package com.example.bookingroom.controller;
 
-import com.example.bookingroom.dto.ApiResponse;
+import com.example.bookingroom.dto.response.ApiResponse;
 import com.example.bookingroom.dto.request.RoleRequest;
 import com.example.bookingroom.dto.response.RoleResponse;
 import com.example.bookingroom.service.RoleService;

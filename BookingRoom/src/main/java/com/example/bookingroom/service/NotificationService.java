@@ -1,7 +1,7 @@
 package com.example.bookingroom.service;
 
 import com.example.bookingroom.dto.request.UserRequest;
-import com.example.bookingroom.dto.NotificationDTO;
+import com.example.bookingroom.dto.reqResp.NotificationDTO;
 
 import java.util.List;
 
