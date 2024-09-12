@@ -1,8 +1,10 @@
 package com.example.bookingroom.dto.reqResp;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -10,14 +12,10 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RoomDTO {
-    int id;
+public class HotelDetailsCreationDTO {
     String name;
-    String type;
-    int price;
+    float starLevel;
+    String address;
     String description;
-    String image;
-
-    @JsonProperty("isActive")
-    boolean isActive;
+    ArrayList<RoomDTO> rooms;
 }

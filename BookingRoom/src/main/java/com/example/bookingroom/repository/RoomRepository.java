@@ -2,6 +2,8 @@ package com.example.bookingroom.repository;
 
 import com.example.bookingroom.entity.Hotel;
 import com.example.bookingroom.entity.Room;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +14,5 @@ import java.util.Optional;
 public interface RoomRepository extends JpaRepository<Room, Integer> {
     Optional<Room> findById(int id);
     List<Room> findByHotel(Hotel hotel);
+    Page<Room> findByHotel(Hotel hotel, Pageable pageable);
 }

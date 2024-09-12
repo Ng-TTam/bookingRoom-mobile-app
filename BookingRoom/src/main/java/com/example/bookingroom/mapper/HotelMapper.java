@@ -1,6 +1,7 @@
 package com.example.bookingroom.mapper;
 
 import com.example.bookingroom.dto.reqResp.HotelDTO;
+import com.example.bookingroom.dto.reqResp.HotelDetailsCreationDTO;
 import com.example.bookingroom.dto.reqResp.HotelDetailsDTO;
 import com.example.bookingroom.entity.Hotel;
 import org.mapstruct.Mapper;
@@ -13,6 +14,9 @@ public interface HotelMapper {
     HotelDTO toHotelDTO(Hotel hotel);
 
     HotelDetailsDTO toHotelDetailsDTO(Hotel hotel);
+
+    @Mapping(target = "image", ignore = true)
+    HotelDetailsDTO toHotelDetailsDTO(HotelDetailsCreationDTO hotelDetailsCreationDTO);
 
     Hotel toHotel(HotelDTO hotelDTO);
 

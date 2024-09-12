@@ -2,9 +2,11 @@ package com.example.bookingroom.exception;
 
 import com.example.bookingroom.dto.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -35,5 +37,4 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(errorCode.getStatusCode()).body(apiResponse);
     }
-
 }

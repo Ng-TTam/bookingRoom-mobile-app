@@ -1,83 +1,57 @@
 package com.example.bookingroom.controller;
 
+import com.example.bookingroom.dto.response.ApiResponse;
+import com.example.bookingroom.service.ImageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/image")
 public class ImageController {
+    @Value("${path.url}")
+    private String IMAGE_DIRECTORY;
+    @Autowired
+    ImageService imageService;
 
-    private static final String IMAGE_DIRECTORY =
-            "C:\\Users\\Boot10\\IdeaProjects\\BookingRoom\\src\\main\\resources\\static\\hotels";
 
-    @RequestMapping(value = "/hotels/{imageName}", method = RequestMethod.GET)
+    @GetMapping("/{dir}/{imageName}")
     @ResponseBody
-    public ResponseEntity<ByteArrayResource> getImage(@PathVariable String imageName) {
+    public ApiResponse<ResponseEntity<ByteArrayResource>> getImage(@PathVariable String dir, @PathVariable String imageName) {
 
-        if(!imageName.equals("") || imageName != null){
-            try{
-                Path imagePath = Paths.get(IMAGE_DIRECTORY, imageName);
-                byte[] buffer = Files.readAllBytes(imagePath);
-                ByteArrayResource byteArrayResource = new ByteArrayResource(buffer);
-                return ResponseEntity.ok()
-                        .contentLength(buffer.length)
-                        .contentType(MediaType.parseMediaType("image/png"))
-                        .body(byteArrayResource);
-            } catch (Exception e){
-
-            }
-        }
-        return ResponseEntity.badRequest().build();
-    }
-    private static final String IMAGE_DISCOUNT_DIRECTORY =
-            "C:\\Users\\Boot10\\IdeaProjects\\BookingRoom\\src\\main\\resources\\static\\discounts";
-
-    @RequestMapping(value = "/discounts/{imageName}", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<ByteArrayResource> getImageDiscount(@PathVariable String imageName) {
-
-        if(!imageName.equals("") || imageName != null){
-            try{
-                Path imagePath = Paths.get(IMAGE_DISCOUNT_DIRECTORY, imageName);
-                byte[] buffer = Files.readAllBytes(imagePath);
-                ByteArrayResource byteArrayResource = new ByteArrayResource(buffer);
-                return ResponseEntity.ok()
-                        .contentLength(buffer.length)
-                        .contentType(MediaType.parseMediaType("image/png"))
-                        .body(byteArrayResource);
-            } catch (Exception e){
-
-            }
-        }
-        return ResponseEntity.badRequest().build();
+        if (imageName != null && !imageName.trim().isEmpty()) {
+            return ApiResponse.<ResponseEntity<ByteArrayResource>>builder()
+                    .result(ResponseEntity.ok()
+                            .contentType(MediaType.parseMediaType("image/png"))
+                            .body(imageService.getImage(imageName, dir)))
+                    .build();
+        } else
+            return ApiResponse.<ResponseEntity<ByteArrayResource>>builder()
+                    .result(ResponseEntity.status(500).build())
+                    .build();
     }
 
-    private static final String IMAGE_ROOM_DIRECTORY =
-            "C:\\Users\\Boot10\\IdeaProjects\\BookingRoom\\src\\main\\resources\\static\\rooms";
+    @GetMapping("/download/{dir}/{imageName}")
+    public ResponseEntity<Resource> downloadImage(@PathVariable String dir, @PathVariable String imageName) {
+        try {
+            // Get the resource (image file) from the service
+            Resource resource = imageService.download(imageName, dir);
 
-    @RequestMapping(value = "/rooms/{imageName}", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<ByteArrayResource> getImageRoom(@PathVariable String imageName) {
+            // Set the content type and content disposition for download
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG) // Or use a method to determine type based on the file extension
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
 
-        if(!imageName.equals("") || imageName != null){
-            try{
-                Path imagePath = Paths.get(IMAGE_ROOM_DIRECTORY, imageName);
-                byte[] buffer = Files.readAllBytes(imagePath);
-                ByteArrayResource byteArrayResource = new ByteArrayResource(buffer);
-                return ResponseEntity.ok()
-                        .contentLength(buffer.length)
-                        .contentType(MediaType.parseMediaType("image/png"))
-                        .body(byteArrayResource);
-            } catch (Exception e){
-
-            }
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.badRequest().build();
     }
 }

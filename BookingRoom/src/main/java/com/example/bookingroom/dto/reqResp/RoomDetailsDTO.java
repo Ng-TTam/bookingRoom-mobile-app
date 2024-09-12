@@ -1,5 +1,6 @@
 package com.example.bookingroom.dto.reqResp;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,6 +18,8 @@ public class RoomDetailsDTO {
     int price;
     String description;
     String image;
+
+    @JsonProperty("isActive")
     boolean isActive;
     HotelDTO hotel;
 }

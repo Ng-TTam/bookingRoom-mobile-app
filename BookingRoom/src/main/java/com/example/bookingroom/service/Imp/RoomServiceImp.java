@@ -2,6 +2,7 @@ package com.example.bookingroom.service.Imp;
 
 import com.example.bookingroom.dto.reqResp.RoomDTO;
 import com.example.bookingroom.dto.reqResp.RoomDetailsDTO;
+import com.example.bookingroom.dto.response.PageResponse;
 import com.example.bookingroom.entity.Hotel;
 import com.example.bookingroom.exception.AppException;
 import com.example.bookingroom.exception.ErrorCode;
@@ -11,6 +12,8 @@ import com.example.bookingroom.repository.HotelRepository;
 import com.example.bookingroom.repository.RoomRepository;
 import com.example.bookingroom.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,9 +51,21 @@ public class RoomServiceImp implements RoomService {
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public List<RoomDTO> getRoomsByHotelId(int hotelId) {
-        Hotel hotel = hotelRepository.findById(hotelId).orElseThrow(() -> new AppException(ErrorCode.HOTEL_NOT_EXISTED));
-        var rooms = roomRepository.findByHotel(hotel);
+        var rooms = roomRepository.findByHotel(findHotel(hotelId));
         return rooms.stream().map(roomMapper::toRoomDTO).toList();
+    }
+
+    @Override
+    public PageResponse<RoomDTO> getRoomsByHotelId(int hotelId, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1,size);
+        var pageData = roomRepository.findByHotel(findHotel(hotelId),pageable);
+        return PageResponse.<RoomDTO>builder()
+                .currentPage(page)
+                .pageSize(pageData.getSize())
+                .totalPages(pageData.getTotalPages())
+                .totalElements(pageData.getTotalElements())
+                .data(pageData.getContent().stream().map(roomMapper::toRoomDTO).toList())
+                .build();
     }
 
     @Override
@@ -74,6 +89,11 @@ public class RoomServiceImp implements RoomService {
     @PreAuthorize("hasRole('ADMIN')")
     public void delete(int id) {
         roomRepository.deleteById(id);
+    }
+
+    private Hotel findHotel(int hotelId){
+        return hotelRepository.findById(hotelId).orElseThrow(
+                () -> new AppException(ErrorCode.HOTEL_NOT_EXISTED));
     }
 
 }

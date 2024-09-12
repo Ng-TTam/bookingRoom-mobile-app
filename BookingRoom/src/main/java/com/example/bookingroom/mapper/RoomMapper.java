@@ -9,12 +9,16 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface RoomMapper {
+    @Mapping(source = "active", target = "isActive", defaultValue = "false")
     RoomDetailsDTO toRoomDetailsDTO(Room room);
 
+    @Mapping(source = "active", target = "isActive", defaultValue = "false")
     RoomDTO toRoomDTO(Room room);
 
+    @Mapping(source = "active", target = "isActive", defaultValue = "false")
     Room toRoom(RoomDetailsDTO roomDetailsDTO);
 
+    @Mapping(source = "active", target = "isActive", defaultValue = "false")
     Room toRoom(RoomDTO roomDTO);
 
     @Mapping(target = "id", ignore = true)
