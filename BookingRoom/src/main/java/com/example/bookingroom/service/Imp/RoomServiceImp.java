@@ -48,12 +48,12 @@ public class RoomServiceImp implements RoomService {
 //        return rooms.stream().map(roomMapper::toRoomDetailsDTO).toList();
 //    }
 
-    @Override
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<RoomDTO> getRoomsByHotelId(int hotelId) {
-        var rooms = roomRepository.findByHotel(findHotel(hotelId));
-        return rooms.stream().map(roomMapper::toRoomDTO).toList();
-    }
+//    @Override
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public List<RoomDTO> getRoomsByHotelId(int hotelId) {
+//        var rooms = roomRepository.findByHotel(findHotel(hotelId));
+//        return rooms.stream().map(roomMapper::toRoomDTO).toList();
+//    }
 
     @Override
     public PageResponse<RoomDTO> getRoomsByHotelId(int hotelId, int page, int size) {

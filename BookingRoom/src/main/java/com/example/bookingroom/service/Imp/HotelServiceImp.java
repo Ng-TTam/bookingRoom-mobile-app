@@ -81,6 +81,8 @@ public class HotelServiceImp implements HotelService {
         });
         HotelDetailsDTO hotelDetailsDTO1 = hotelMapper.toHotelDetailsDTO(hotel);
         log.info(String.valueOf(hotelDetailsDTO1.getRooms().get(0).isActive()));
+        //error when parse room to roomDTO, cannot parse correctly value of isActive
+        //not add image of each room yet -> func
         return hotelDetailsDTO1;
     }
 

@@ -6,6 +6,6 @@ import com.example.bookingroom.dto.reqResp.BookingDTO;
 import java.util.List;
 
 public interface BookedRoomService {
-    List<BookedRoomDTO> getListBookedRoomByBooking(BookingDTO bookingDTO);
-    void updateBookedRoom(BookedRoomDTO bookedRoomDTO);
+    BookedRoomDTO getBookedRoom(int bookingId, int bookedRoomId);
+    void updateBookedRoom(int bookedRoomId, BookedRoomDTO bookedRoomDTO);
 }

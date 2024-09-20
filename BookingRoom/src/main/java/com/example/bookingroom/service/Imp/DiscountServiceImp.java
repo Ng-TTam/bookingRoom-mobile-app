@@ -1,115 +1,121 @@
 package com.example.bookingroom.service.Imp;
 
 import com.example.bookingroom.dto.reqResp.DiscountDTO;
-import com.example.bookingroom.dto.request.UserRequest;
+import com.example.bookingroom.dto.reqResp.DiscountDetailsDTO;
+import com.example.bookingroom.dto.response.PageResponse;
 import com.example.bookingroom.entity.Discount;
+import com.example.bookingroom.entity.User;
+import com.example.bookingroom.exception.AppException;
+import com.example.bookingroom.exception.ErrorCode;
+import com.example.bookingroom.mapper.DiscountMapper;
 import com.example.bookingroom.repository.DiscountRepository;
 import com.example.bookingroom.repository.HotelRepository;
 import com.example.bookingroom.repository.UserDiscountRepository;
-import com.example.bookingroom.repository.UserRepository;
 import com.example.bookingroom.service.DiscountService;
-import com.example.bookingroom.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 @Service
 public class DiscountServiceImp implements DiscountService {
-
     @Autowired
     DiscountRepository discountRepository;
-
-    @Autowired
-    UserRepository userRepository;
-
     @Autowired
     UserDiscountRepository userDiscountRepository;
-
+    @Autowired
+    DiscountMapper discountMapper;
     @Autowired
     HotelRepository hotelRepository;
 
-    @Autowired
-    HotelService hotelService;
-
     @Override
-    public List<DiscountDTO> getListDiscountUserUnowner(UserRequest userDTO) {
-//        List<Discount> discounts = discountRepository.findUnownedDiscountsByUserId(userDTO.getId());
-        List<DiscountDTO> listDiscountDTOs = new ArrayList<>();
-//        for(Discount discount: discounts){
-//            DiscountDTO discountDTO = new DiscountDTO();
-//            discountDTO.setId(discount.getId());
-//            discountDTO.setTerm(discount.getTerm());
-//            discountDTO.setType(discount.getType());
-//            discountDTO.setRewardPoint(discount.getRewardPoint());
-//            discountDTO.setLeastAmountUsed(discount.getLeastAmountUsed());
-//            discountDTO.setLargestAmountReduce(discount.getLargestAmountReduce());
-//            discountDTO.setReducedPrice(discount.getReducedPrice());
-//            discountDTO.setQuality(discount.getQuality());
-//            discountDTO.setUsedQuality(discount.getUsedQuality());
-//            discountDTO.setImage(discount.getImage());
-//            discountDTO.setOutOfDate(discount.getOutOfDate());
-//            discountDTO.setHotelDTO(hotelService.getHotelById(discount.getHotel().getId()));
-//
-//            listDiscountDTOs.add(discountDTO);
-//        }
-        return listDiscountDTOs;
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    public DiscountDetailsDTO create(DiscountDetailsDTO discountDetailsDTO, int hotelId) {
+        Discount discount = discountMapper.toDiscount(discountDetailsDTO);
+        if(hotelId != discountDetailsDTO.getHotel().getId())
+            throw new AppException(ErrorCode.PERMISSION_DENIED);
+
+        return discountMapper.toDiscountDetailsDTO(discountRepository.save(discount));
     }
 
     @Override
-    public List<DiscountDTO> getListDiscountUserOwner(UserRequest userDTO) {
-//        List<Discount> discounts = discountRepository.findOwnedDiscountsByUserId(userDTO.getId());
-        List<DiscountDTO> listDiscountDTOs = new ArrayList<>();
-//        for(Discount discount: discounts){
-//            DiscountDTO discountDTO = new DiscountDTO();
-//            discountDTO.setId(discount.getId());
-//            discountDTO.setTerm(discount.getTerm());
-//            discountDTO.setType(discount.getType());
-//            discountDTO.setRewardPoint(discount.getRewardPoint());
-//            discountDTO.setLeastAmountUsed(discount.getLeastAmountUsed());
-//            discountDTO.setLargestAmountReduce(discount.getLargestAmountReduce());
-//            discountDTO.setReducedPrice(discount.getReducedPrice());
-//            discountDTO.setQuality(discount.getQuality());
-//            discountDTO.setUsedQuality(discount.getUsedQuality());
-//            discountDTO.setImage(discount.getImage());
-//            discountDTO.setOutOfDate(discount.getOutOfDate());
-//            discountDTO.setHotelDTO(hotelService.getHotelById(discount.getHotel().getId()));
-//
-//            listDiscountDTOs.add(discountDTO);
-//        }
-        return listDiscountDTOs;
+    @PreAuthorize("hasRole('ADMIN')")
+    public PageResponse<DiscountDetailsDTO> getDiscounts(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        var pageData = discountRepository.findAll(pageable);
+        
+        return PageResponse.<DiscountDetailsDTO>builder()
+                .totalElements(pageData.getTotalElements())
+                .totalPages(pageData.getTotalPages())
+                .pageSize(pageData.getSize())
+                .data(pageData.getContent().stream().map(discountMapper::toDiscountDetailsDTO).toList())
+                .build();
     }
 
     @Override
-    public void exchangeDiscount(UserRequest userDTO, DiscountDTO discountDTO) {
-//        UserDiscount userDiscount = new UserDiscount();
-//        userDiscount.setDiscount(discountRepository.findById(discountDTO.getId()));
-//        userDiscount.setUser(userRepository.findByNameLogin(userDTO.getNameLogin()));
-//        userDiscount.setUsed(0);
-//        userDiscountRepository.save(userDiscount);
+    @PreAuthorize("hasRole('ADMIN')")
+    public PageResponse<DiscountDTO> getDiscounts(int hotelId, int page, int size) {
+        var hotel = hotelRepository.findById(hotelId).orElseThrow(
+                () -> new AppException(ErrorCode.HOTEL_NOT_EXISTED));
+
+        Pageable pageable = PageRequest.of(page - 1, size);
+        var pageData = discountRepository.findByHotel(hotel, pageable);
+
+        return PageResponse.<DiscountDTO>builder()
+                .totalElements(pageData.getTotalElements())
+                .totalPages(pageData.getTotalPages())
+                .pageSize(pageData.getSize())
+                .data(pageData.getContent().stream().map(discountMapper::toDiscountDTO).toList())
+                .build();
     }
 
     @Override
-    public DiscountDTO getDiscountByID(int id){
-//        Discount discount = discountRepository.findById(id);
-//        DiscountDTO discountDTO = new DiscountDTO();
-//        discountDTO.setId(discount.getId());
-//        discountDTO.setTerm(discount.getTerm());
-//        discountDTO.setType(discount.getType());
-//        discountDTO.setRewardPoint(discount.getRewardPoint());
-//        discountDTO.setLeastAmountUsed(discount.getLeastAmountUsed());
-//        discountDTO.setLargestAmountReduce(discount.getLargestAmountReduce());
-//        discountDTO.setReducedPrice(discount.getReducedPrice());
-//        discountDTO.setQuality(discount.getQuality());
-//        discountDTO.setUsedQuality(discount.getUsedQuality());
-//        discountDTO.setImage(discount.getImage());
-//        discountDTO.setOutOfDate(discount.getOutOfDate());
-//        discountDTO.setHotelDTO(hotelService.getHotelById(discount.getHotel().getId()));
-        return null;
+    @PreAuthorize("hasRole('ADMIN') && hasRole('USER')")
+    public DiscountDetailsDTO getDiscount(int hotelId, String code) {
+        var discountDetailsDTO = discountMapper.toDiscountDetailsDTO(discountRepository.findById(code).orElseThrow(
+                () -> new AppException(ErrorCode.DISCOUNT_NOT_EXISTED)
+        ));
+
+        if(discountDetailsDTO.getHotel().getId() != hotelId)
+            throw new AppException(ErrorCode.DISCOUNT_NOT_EXISTED);
+
+        return discountDetailsDTO;
     }
 
     @Override
-    public void addDiscount(DiscountDTO discountDTO) {
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    public DiscountDTO updateDiscount(DiscountDTO discountDTO) {
+        var discount = discountRepository.findById(discountDTO.getCode()).orElseThrow(
+                () -> new AppException(ErrorCode.DISCOUNT_NOT_EXISTED));
+
+        discountMapper.updateDiscount(discount, discountDTO);
+
+        if(discount.getEndDate().isBefore(LocalDate.now()))
+            throw new AppException(ErrorCode.DISCOUNT_EXPIRED);
+
+        return discountMapper.toDiscountDTO(discountRepository.save(discount));
     }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public void delete(int hotelId, String code) {
+        var discount = discountRepository.findById(code).orElseThrow(() -> new AppException(ErrorCode.DISCOUNT_NOT_EXISTED));
+
+        if(discount.getHotel().getId() != hotelId)
+            throw new AppException(ErrorCode.PERMISSION_DENIED);
+
+        discountRepository.deleteById(code);
+    }
+
+    @Override
+    public boolean checkDiscountUsed(User user, Discount discount) {
+        return userDiscountRepository.existsByUserAndDiscount(user,discount);
+    }
+
 }

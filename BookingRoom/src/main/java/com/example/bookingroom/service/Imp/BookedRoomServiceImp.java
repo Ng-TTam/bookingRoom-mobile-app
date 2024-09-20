@@ -1,52 +1,43 @@
 package com.example.bookingroom.service.Imp;
 
 import com.example.bookingroom.dto.reqResp.BookedRoomDTO;
-import com.example.bookingroom.dto.reqResp.BookingDTO;
 import com.example.bookingroom.entity.BookedRoom;
+import com.example.bookingroom.exception.AppException;
+import com.example.bookingroom.exception.ErrorCode;
+import com.example.bookingroom.mapper.BookedRoomMapper;
 import com.example.bookingroom.repository.BookedRoomRepository;
-import com.example.bookingroom.repository.BookingRepository;
 import com.example.bookingroom.service.BookedRoomService;
-import com.example.bookingroom.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BookedRoomServiceImp implements BookedRoomService {
     @Autowired
     BookedRoomRepository bookedRoomRepository;
-
     @Autowired
-    BookingRepository bookingRepository;
-
-    @Autowired
-    RoomService roomService;
+    BookedRoomMapper bookedRoomMapper;
 
     @Override
-    public List<BookedRoomDTO> getListBookedRoomByBooking(BookingDTO bookingDTO) {
-//        List<BookedRoom> bookedRooms = bookedRoomRepository.findByBooking(bookingRepository.findById(bookingDTO.getId()));
-        List<BookedRoomDTO> bookedRoomDTOs = new ArrayList<>();
-//        for(BookedRoom bookedRoom: bookedRooms){
-////            BookedRoomDTO bookedRoomDTO = new BookedRoomDTO();
-////            bookedRoomDTO.setId(bookedRoom.getId());
-//////            bookedRoomDTO.setRoomDTO(roomService.getRoomById(bookedRoom.getRoom().getId()));
-////            bookedRoomDTO.setPrice(bookedRoom.getPrice());
-////            bookedRoomDTO.setIsCheckIn(bookedRoom.getIsCheckIn());
-////            bookedRoomDTO.setCheckIn(bookedRoom.getCheckIn());
-////            bookedRoomDTO.setCheckOut(bookedRoom.getCheckOut());
-////            bookedRoomDTOs.add(bookedRoomDTO);
-//        }
-        return bookedRoomDTOs;
+    public BookedRoomDTO getBookedRoom(int bookingId, int bookedRoomId) {
+        var bookedRoom = bookedRoomRepository.findById(bookedRoomId).orElseThrow(
+                () -> new AppException(ErrorCode.BOOKED_ROOM_NOT_EXISTED)
+        );
+
+        if(bookingId != bookedRoom.getBooking().getId())
+            throw new AppException(ErrorCode.PERMISSION_DENIED);//booking can not contain booked room
+
+        return bookedRoomMapper.toBookedRoomDTO(bookedRoom);
     }
 
     @Override
-    public void updateBookedRoom(BookedRoomDTO bookedRoomDTO) {
-        BookedRoom bookedRoom = bookedRoomRepository.findById(bookedRoomDTO.getId());
-//        bookedRoom.setCheckIn(bookedRoomDTO.getCheckIn());
-//        bookedRoom.setCheckOut(bookedRoomDTO.getCheckOut());
-//        bookedRoom.setIsCheckIn(bookedRoomDTO.getIsCheckIn());
+    @Transactional
+    public void updateBookedRoom(int bookedRoomId, BookedRoomDTO bookedRoomDTO) {
+        var bookedRoom = bookedRoomRepository.findById(bookedRoomId).orElseThrow(
+                () -> new AppException(ErrorCode.BOOKED_ROOM_NOT_EXISTED)
+        );
+
+        bookedRoomMapper.updateBookedRoom(bookedRoom, bookedRoomDTO);
         bookedRoomRepository.save(bookedRoom);
     }
 }

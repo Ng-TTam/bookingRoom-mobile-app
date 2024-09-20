@@ -1,0 +1,6 @@
+- mã giảm tự động áp dụng cho phòng muốn đặt (thường áp dụng trực tiếp bên client, bằng cách get mã có thể áp dụng thì áp trực tiếp vào booking)
+- người dùng k có sở hữu voucher, khi có mã giảm (tức có ctrình giảm giá dành cho phòng đó thì được áp dụng) -> nếu là vip hoặc tgia sự kiện thì sẽ có mã -> dùng mã đó để áp dụng
+- bên client mới là bên lấy mã và áp mã -> bên server kiểm tra xem mã chỉ đc áp dụng 1 lần
+- thêm chức năng thống kê lại doanh thu của từng khách sạn
+- thêm send mail otp khi đăng ký hoặc thay đổi mật khẩu
+- db nên tách riêng trường địa chỉ thành country & province thành bảng riêng -> dễ cập nhật thay đổi, có thể dùng được ở nhiều vị trí

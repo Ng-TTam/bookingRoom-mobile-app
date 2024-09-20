@@ -31,6 +31,11 @@ public enum ErrorCode {
     IMAGE_NOT_EXISTED(322,"Image doesn't existed", HttpStatus.NOT_FOUND),
     IMAGE_NOT_PROVIDED(323,"No image file provided", HttpStatus.BAD_REQUEST),
     BLANK_IMAGE(324,"Required part 'photo' is not present", HttpStatus.BAD_REQUEST),
+    DISCOUNT_NOT_EXISTED(325,"Discount doesn't not existed", HttpStatus.NOT_FOUND),
+    PERMISSION_DENIED(326,"Don't have permission to modify", HttpStatus.FORBIDDEN),
+    DISCOUNT_NOT_EXISTED_IN_HOTEL(327, "Discount doesn't existed in hotel", HttpStatus.NOT_FOUND),
+    DISCOUNT_EXPIRED(328,"The discount code has expired", HttpStatus.BAD_REQUEST),
+    BOOKED_ROOM_NOT_EXISTED(329, "Booked room doesn't existed", HttpStatus.NOT_FOUND),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

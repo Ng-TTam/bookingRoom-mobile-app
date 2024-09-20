@@ -10,16 +10,17 @@ import java.time.LocalDate;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DiscountDTO {
-    int id;
+    String code;
+    float discountValue;
+    String discountType;
+    LocalDate startDate;
+    LocalDate endDate;
+    float minPurchaseAmount;
+    float maxPurchaseAmount;
+    int usageLimit;
+    boolean isActive;
     String term;
-    String type;
-    int rewardPoint;
-    int leastAmountUsed;
-    int largestAmountReduce;
-    int reducedPrice;
-    int quality;
-    int usedQuality;
     String image;
-    LocalDate outOfDate;
-    HotelDTO hotel;
+    int rewardPoint;
+
 }

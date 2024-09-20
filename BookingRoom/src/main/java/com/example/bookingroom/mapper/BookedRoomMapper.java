@@ -8,6 +8,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface BookedRoomMapper {
+
     BookedRoom toBookedRoom(BookedRoomDTO bookedRoomDTO);
 
     BookedRoomDTO toBookedRoomDTO(BookedRoom bookedRoom);

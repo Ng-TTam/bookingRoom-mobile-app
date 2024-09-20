@@ -20,7 +20,6 @@ public interface HotelMapper {
 
     Hotel toHotel(HotelDTO hotelDTO);
 
-//    @Mapping(target = "rooms", ignore = true)
     @Mapping(target = "rooms", source = "rooms")
     Hotel toHotel(HotelDetailsDTO hotelDetailsDTO);
 

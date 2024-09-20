@@ -24,9 +24,9 @@ public class UserDiscountServiceImp implements UserDiscountService {
     @Override
     public void addUserDiscount(UserRequest userDTO, DiscountDTO discountDTO) {
         UserDiscount userDiscount = new UserDiscount();
-        userDiscount.setDiscount(discountRepository.findById(discountDTO.getId()));
-//        userDiscount.setUser(userRepository.findByNameLogin(userDTO.getNameLogin()));
-        userDiscount.setUsed(0);
+//        userDiscount.setDiscount(discountRepository.findById(discountDTO.getId()));
+////        userDiscount.setUser(userRepository.findByNameLogin(userDTO.getNameLogin()));
+//        userDiscount.setUsed(0);
         userDiscountRepository.save(userDiscount);
     }
 }

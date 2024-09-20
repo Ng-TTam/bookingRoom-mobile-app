@@ -16,18 +16,18 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Discount {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    String code;
+    float discountValue;
+    String discountType;  // percentage or amount
+    LocalDate startDate;
+    LocalDate endDate;
+    float minPurchaseAmount;
+    float maxPurchaseAmount;
+    int usageLimit;
+    boolean isActive;
     String term;
-    String type;
-    int rewardPoint;
-    int leastAmountUsed;
-    int largestAmountReduce;
-    int reducedPrice;
-    int quality;
-    int usedQuality;
     String image;
-    LocalDate outOfDate;
+    int rewardPoint;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hotel_id",nullable = false)
